@@ -11,6 +11,7 @@ import nodeResolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
 import replace from 'rollup-plugin-replace'
 import autoprefixer from 'autoprefixer'
+import copy from 'rollup-plugin-copy'
 
 const env = process.env.NODE_ENV
 
@@ -40,6 +41,17 @@ export default [
       // redux: 'Redux'
     },
     plugins: [
+      copy({
+        targets: [
+          {
+            src: 'src/fonts/*',
+            dest: 'dist/fonts'
+          }
+        ],
+        verbose: true,
+        copyOnce: true,
+        hook: 'writeBundle'
+      }),
       babel({
         exclude: 'node_modules/**'
       }),
