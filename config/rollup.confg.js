@@ -1,10 +1,16 @@
 import { uglify } from 'rollup-plugin-uglify'
-const path = require('path')
-const less = require('rollup-plugin-less')
-const babel = require('rollup-plugin-babel')
-const nodeResolve = require('rollup-plugin-node-resolve')
-const commonjs = require('rollup-plugin-commonjs')
-const replace = require('rollup-plugin-replace')
+import postcss from 'rollup-plugin-postcss'
+import path from 'path'
+import simplevars from 'postcss-simple-vars'
+import nested from 'postcss-nested'
+import cssnext from 'postcss-cssnext'
+import cssnano from 'cssnano'
+import less from 'rollup-plugin-less'
+import babel from 'rollup-plugin-babel'
+import nodeResolve from 'rollup-plugin-node-resolve'
+import commonjs from 'rollup-plugin-commonjs'
+import replace from 'rollup-plugin-replace'
+import autoprefixer from 'autoprefixer'
 
 const env = process.env.NODE_ENV
 
@@ -12,16 +18,21 @@ const resolveFile = function (filePath) {
   return path.join(__dirname, '..', filePath)
 }
 
-module.exports = [
+const resolveOutput = function (type) {
+  const base = `/dist/jsy-editor.${type}.js`
+  return {
+    file: resolveFile(base),
+    format: type
+  }
+}
+
+export default [
   {
     input: resolveFile('/src/js/index.js'),
     output: [
-      {
-        file: '../dist/build.umd.js',
-        format: 'umd', //  五种输出格式：amd /  es6 / iife / umd / cjs
-        name: '$Editor' // 当format为iife和umd时必须提供，将作为全局变量挂在window(浏览器环境)下：window.A=...
-        // sourcemap: true // 生成bundle.map.js文件，方便调试
-      }
+      { ...resolveOutput('umd'), name: '$Editor' },
+      resolveOutput('amd'),
+      resolveOutput('cjs')
     ],
     external: [], // 外部依赖
     globals: {
@@ -29,7 +40,6 @@ module.exports = [
       // redux: 'Redux'
     },
     plugins: [
-      less(),
       babel({
         exclude: 'node_modules/**'
       }),
@@ -38,7 +48,24 @@ module.exports = [
       replace({
         'process.env.NODE_ENV': JSON.stringify(env)
       }),
-      uglify()
+      uglify({
+        output: {
+          comments: false
+        }
+      }),
+      postcss({
+        plugins: [
+          simplevars(),
+          nested(),
+          cssnext({ warnForDuplicates: false }),
+          cssnano(),
+          autoprefixer()
+        ],
+        extract: resolveFile('/dist/index.min.css'),
+        modules: {
+          less
+        }
+      })
     ]
   }
 ]

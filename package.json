@@ -2,12 +2,11 @@
   "name": "jsy-editor",
   "version": "1.0.0",
   "description": "wangEditor 魔改",
-  "main": "index.js",
+  "main": "dist/jsy-editor.umd.js",
   "author": "Jdes",
   "license": "MIT",
   "private": false,
   "scripts": {
-    "win-example": "node ./example/server/index.js",
     "build": "rollup -c config/rollup.confg.js"
   },
   "homepage": "https://github.com/JdesEva/jsy-editor",
@@ -32,8 +31,10 @@
   "devDependencies": {
     "@babel/core": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
+    "autoprefixer": "^9.7.2",
     "babel-eslint": "^10.0.3",
     "babel-preset-latest": "^6.24.1",
+    "cssnano": "^4.1.10",
     "eslint": "^6.7.1",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.18.2",
@@ -41,12 +42,17 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "husky": "^3.1.0",
+    "less": "^3.10.3",
     "lint-staged": "^9.5.0",
+    "postcss-cssnext": "^3.1.0",
+    "postcss-nested": "^4.2.1",
+    "postcss-simple-vars": "^5.0.2",
     "rollup": "^1.27.5",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-less": "^1.1.2",
     "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-postcss": "^2.0.3",
     "rollup-plugin-replace": "^2.2.0",
     "rollup-plugin-uglify": "^6.0.3"
   }
