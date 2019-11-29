@@ -5,7 +5,6 @@ import simplevars from 'postcss-simple-vars'
 import nested from 'postcss-nested'
 import cssnext from 'postcss-cssnext'
 import cssnano from 'cssnano'
-import less from 'rollup-plugin-less'
 import babel from 'rollup-plugin-babel'
 import nodeResolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
@@ -73,10 +72,7 @@ export default [
           cssnano(),
           autoprefixer()
         ],
-        extract: resolveFile('/dist/index.min.css'),
-        modules: {
-          less
-        }
+        extract: resolveFile('/dist/index.min.css')
       })
     ]
   }
