@@ -213,6 +213,7 @@ Editor.prototype = {
   // 初始化选区，将光标定位到内容尾部
   initSelection: function (newLine) {
     const $textElem = this.$textElem
+    console.log($textElem)
     const $children = $textElem.children()
     if (!$children.length) {
       // 如果编辑器区域无内容，添加一个空行，重新设置选区

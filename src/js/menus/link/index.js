@@ -29,6 +29,7 @@ Link.prototype = {
     if (this._active) {
       // 当前选区在链接里面
       $linkelem = editor.selection.getSelectionContainerElem()
+      console.log($linkelem)
       if (!$linkelem) {
         return
       }
@@ -39,6 +40,9 @@ Link.prototype = {
       this._createPanel($linkelem.text(), $linkelem.attr('href'))
     } else {
       // 当前选区不在链接里面
+      //   console.log(1, editor)
+      //   console.log(2, editor.selection.isSelectionEmpty())
+      console.log(3, editor.selection.getSelectionText())
       if (editor.selection.isSelectionEmpty()) {
         // 选区是空的，未选中内容
         this._createPanel('', '')
@@ -86,7 +90,7 @@ Link.prototype = {
               fn: () => {
                 // 执行插入链接
                 const $link = $('#' + inputLinkId)
-                console.log(this)
+                console.log('this', this, $)
                 const $text = $('#' + inputTextId)
                 const link = $link.val()
                 const text = $text.val()
@@ -140,6 +144,8 @@ Link.prototype = {
     const config = editor.config
     const linkCheck = config.linkCheck
     let checkResult = true // 默认为 true
+    console.log('text', text)
+    console.log('link', link)
     if (linkCheck && typeof linkCheck === 'function') {
       checkResult = linkCheck(text, link)
     }

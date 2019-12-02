@@ -12,14 +12,25 @@
 
 <body>
     <div id="div"></div>
+    <button id="btn">获取</button>
+    <div id="content"></div>
 </body>
 
 <script>
     window.onload = function () {
+        console.log(window)
         const E = window.$Editor
         const editor = new E('#div')
         editor.create()
-    }
+        let div = document.getElementById('content')
+        document.getElementById('btn').addEventListener('click', function () {
+                // 读取 html
+                div.innerHTML = editor.txt.html()
+            }, false)
+        }
+
+
+        
 </script>
 
 </html>

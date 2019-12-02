@@ -42,7 +42,10 @@ API.prototype = {
     }
 
     // 判断选区内容是否在不可编辑区域之内
-    if ($containerElem.attr('contenteditable') === 'false' || $containerElem.parentUntil('[contenteditable=false]')) {
+    if (
+      $containerElem.attr('contenteditable') === 'false' ||
+      $containerElem.parentUntil('[contenteditable=false]')
+    ) {
       return
     }
 
@@ -69,8 +72,20 @@ API.prototype = {
   // 选中区域的文字
   getSelectionText: function () {
     const range = this._currentRange
-    if (range) {
+    // console.log('textER', range, this)
+    // console.log('pppp', this._currentRange.toString())
+    // 只需要在这里增加图片的校验即可
+    const imgReg = /<img.*?(?:>|\/>)/gi // 截取标签内容
+    const dom = document.querySelector(`#${this.editor.textElemId}`)
+    if (range && dom.innerHTML.indexOf('img') === -1) {
       return this._currentRange.toString()
+    } else if (dom.innerHTML.indexOf('img') > -1) {
+      // console.log(imgReg, dom.innerHTML, dom.innerHTML.match(imgReg)[0])
+      // 这边需要做的是转义 引号 和 标签结尾符号
+      return dom.innerHTML
+        .match(imgReg)[0]
+        .replace(/"/g, '&quot;')
+        .replace(/>/g, '&gt;')
     } else {
       return ''
     }
@@ -82,9 +97,7 @@ API.prototype = {
     let elem
     if (range) {
       elem = range.commonAncestorContainer
-      return $(
-        elem.nodeType === 1 ? elem : elem.parentNode
-      )
+      return $(elem.nodeType === 1 ? elem : elem.parentNode)
     }
   },
   getSelectionStartElem: function (range) {
@@ -92,9 +105,7 @@ API.prototype = {
     let elem
     if (range) {
       elem = range.startContainer
-      return $(
-        elem.nodeType === 1 ? elem : elem.parentNode
-      )
+      return $(elem.nodeType === 1 ? elem : elem.parentNode)
     }
   },
   getSelectionEndElem: function (range) {
@@ -102,9 +113,7 @@ API.prototype = {
     let elem
     if (range) {
       elem = range.endContainer
-      return $(
-        elem.nodeType === 1 ? elem : elem.parentNode
-      )
+      return $(elem.nodeType === 1 ? elem : elem.parentNode)
     }
   },
 
