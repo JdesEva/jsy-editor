@@ -2,7 +2,7 @@
   "name": "jsy-editor",
   "version": "1.0.0",
   "description": "wangEditor 魔改",
-  "main": "dist/jsy-editor.umd.js",
+  "main": "lib/jsy-editor.umd.js",
   "author": "Jdes",
   "license": "MIT",
   "private": false,

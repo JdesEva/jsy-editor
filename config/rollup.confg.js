@@ -19,7 +19,7 @@ const resolveFile = function (filePath) {
 }
 
 const resolveOutput = function (type) {
-  const base = `/dist/jsy-editor.${type}.js`
+  const base = `/lib/jsy-editor.${type}.js`
   return {
     file: resolveFile(base),
     format: type
@@ -44,7 +44,7 @@ export default [
         targets: [
           {
             src: 'src/fonts/*',
-            dest: 'dist/fonts'
+            dest: 'lib/fonts'
           }
         ],
         verbose: true,
@@ -60,8 +60,9 @@ export default [
         'process.env.NODE_ENV': JSON.stringify(env)
       }),
       uglify({
-        output: {
-          comments: false
+        sourcemap: false,
+        compress: {
+          drop_console: false // 去除console 生产模式建议关闭
         }
       }),
       postcss({
@@ -72,7 +73,7 @@ export default [
           cssnano(),
           autoprefixer()
         ],
-        extract: resolveFile('/dist/index.min.css')
+        extract: resolveFile('/lib/index.min.css')
       })
     ]
   }
