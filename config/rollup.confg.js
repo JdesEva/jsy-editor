@@ -62,7 +62,7 @@ export default [
       uglify({
         sourcemap: false,
         compress: {
-          drop_console: false // 去除console 生产模式建议关闭
+          drop_console: true // 去除console 生产模式建议关闭
         }
       }),
       postcss({
