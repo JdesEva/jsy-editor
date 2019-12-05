@@ -1,6 +1,6 @@
 {
   "name": "jsy-editor",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "wangEditor 魔改",
   "main": "lib/jsy-editor.umd.js",
   "author": "Jdes",

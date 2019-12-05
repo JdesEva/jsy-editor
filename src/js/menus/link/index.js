@@ -137,16 +137,22 @@ Link.prototype = {
 
   // 删除当前链接
   _delLink: function () {
-    if (!this._active) {
-      return
-    }
+    console.log(this._active)
+    // if (!this._active) {
+    //   return
+    // }
     const editor = this.editor
     const $selectionELem = editor.selection.getSelectionContainerElem()
+    console.log(12345, $selectionELem)
     if (!$selectionELem) {
       return
     }
     const selectionText = editor.selection.getSelectionText()
-    editor.cmd.do('insertHTML', '<span>' + selectionText + '</span>')
+    console.log(123, selectionText)
+    const doA = selectionText.querySelector('a')
+    const delDOM = document.getElementById(doA.id) // 获取innerHTML 然后插入即可
+    console.log(delDOM)
+    editor.cmd.do('insertHTML', '<span>' + delDOM.innerHTML + '</span>')
   },
 
   // 插入链接
