@@ -1,13 +1,16 @@
 {
   "name": "jsy-editor",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "wangEditor 魔改",
   "main": "lib/jsy-editor.umd.js",
   "author": "Jdes",
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "rollup -c config/rollup.confg.js"
+    "build": "rd /s/q lib && set NODE_ENV='production' && rollup -c ./config/rollup.conf.prod.js",
+    "dev": "rd /s/q lib && set NODE_ENV='development' && rollup -c ./config/rollup.conf.dev.js -w",
+    "reload": "livereload 'lib/'",
+    "serve": "npm-run-all --parallel dev"
   },
   "homepage": "https://github.com/JdesEva/jsy-editor",
   "repositories": [
@@ -44,16 +47,20 @@
     "husky": "^3.1.0",
     "less": "^3.10.3",
     "lint-staged": "^9.5.0",
+    "npm-run-all": "^4.1.5",
     "postcss-cssnext": "^3.1.0",
     "postcss-nested": "^4.2.1",
     "postcss-simple-vars": "^5.0.2",
     "rollup": "^1.27.5",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-copy": "^3.1.0",
+    "rollup-plugin-livereload": "^1.0.4",
+    "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-postcss": "^2.0.3",
     "rollup-plugin-replace": "^2.2.0",
-    "rollup-plugin-uglify": "^6.0.3"
+    "rollup-plugin-serve": "^1.0.1",
+    "rollup-plugin-uglify": "^6.0.3",
+    "rollup-watch": "^4.3.1"
   }
 }

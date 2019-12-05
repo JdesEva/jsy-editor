@@ -8,6 +8,8 @@
 
 - 新增图片链接功能
 
+- 本地开发服务
+
 ### Todo
 
 后续更新内容
@@ -48,3 +50,31 @@ E.create() // 创建富文本实例
 #### 运行效果
 
 ![image](examples/image/example.png)
+
+### 参与贡献
+
+执行以下命令进行开发
+
+```shell
+git clone git@github.com:JdesEva/jsy-editor.git
+
+cd jsy-editor
+
+yarn install
+
+yarn serve
+```
+
+浏览器会自动打开 `localhost:3003` 的页面，切换到 `src` 目录进行开发即可（已经配置了热刷新，不需要额外配置）
+
+开发完毕之后进行测试（自动测试暂时未覆盖），然后进行提`pr`即可
+
+### 打包发布
+
+执行以下命令
+
+```shell
+yarn build
+
+npm publish
+```

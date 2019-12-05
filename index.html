@@ -6,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" href="../lib/index.min.css">
-    <script src="../lib/jsy-editor.umd.js"></script>
 </head>
 
 <body>
@@ -15,14 +13,11 @@
     <button id="btn">获取</button>
     <div id="content"></div>
 </body>
-
+<script src="lib/jsy-editor.iife.js"></script>
 <script>
     window.onload = function () {
-        console.log(window)
         const E = window.$Editor
         const editor = new E('#div')
-
-        
         editor.create()
         let div = document.getElementById('content')
         document.getElementById('btn').addEventListener('click', function () {

@@ -72,23 +72,28 @@ API.prototype = {
   // 选中区域的文字
   getSelectionText: function () {
     const range = this._currentRange
-    // console.log('textER', range, this)
+    console.log('range', range)
     // console.log('pppp', this._currentRange.toString())
-    // 只需要在这里增加图片的校验即可
-    const imgReg = /<img.*?(?:>|\/>)/gi // 截取标签内容
-    const dom = document.querySelector(`#${this.editor.textElemId}`)
-    if (range && dom.innerHTML.indexOf('img') === -1) {
-      return this._currentRange.toString()
-    } else if (dom.innerHTML.indexOf('img') > -1) {
-      // console.log(imgReg, dom.innerHTML, dom.innerHTML.match(imgReg)[0])
-      // 这边需要做的是转义 引号 和 标签结尾符号
-      return dom.innerHTML
-        .match(imgReg)[0]
-        .replace(/"/g, '&quot;')
-        .replace(/>/g, '&gt;')
-    } else {
-      return ''
-    }
+    // // 只需要在这里增加图片的校验即可
+    // const imgReg = /<img.*?(?:>|\/>)/gi // 截取标签内容
+    // const dom = document.querySelector(`#${this.editor.textElemId}`)
+    // if (range && dom.innerHTML.indexOf('img') === -1) {
+    //   return this._currentRange.toString()
+    // } else if (dom.innerHTML.indexOf('img') > -1) {
+    //   // console.log(imgReg, dom.innerHTML, dom.innerHTML.match(imgReg)[0])
+    //   // 这边需要做的是转义 引号 和 标签结尾符号
+    //   var index = range.startOffset
+    //   const Str = dom.innerHTML.match(imgReg)[index]
+    //   return Str.replace(/"/g, '&quot;').replace(/>/g, '&gt;')
+    // } else {
+    //   return ''
+    // }
+    const domList = range.commonAncestorContainer.childNodes
+    const startIndex = range.startOffset
+    const endIndex = range.endOffset
+    // const contentDOM = domList.slice(startIndex, endIndex)
+    // console.log(contentDOM)
+    console.log(domList, startIndex, endIndex)
   },
 
   // 选区的 $Elem
