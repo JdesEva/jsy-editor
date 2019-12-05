@@ -2,7 +2,7 @@
     menu - link
 */
 import $ from '../../util/dom-core.js'
-import { getRandom } from '../../util/util.js'
+import { getRandom, __guid } from '../../util/util.js'
 import Panel from '../panel.js'
 
 // 构造函数
@@ -37,12 +37,15 @@ Link.prototype = {
       editor.selection.createRangeByElem($linkelem)
       editor.selection.restoreSelection()
       // 显示 panel
-      this._createPanel($linkelem.text(), $linkelem.attr('href'))
+      this._createPanel(
+        editor.selection.getSelectionText(),
+        $linkelem.attr('href')
+      )
     } else {
       // 当前选区不在链接里面
       //   console.log(1, editor)
       //   console.log(2, editor.selection.isSelectionEmpty())
-      console.log(3, editor.selection.getSelectionText())
+      //   console.log(3, editor.selection.getSelectionText())
       if (editor.selection.isSelectionEmpty()) {
         // 选区是空的，未选中内容
         this._createPanel('', '')
@@ -74,8 +77,10 @@ Link.prototype = {
           title: '链接',
           // 模板
           tpl: `<div>
-                    <input id="${inputTextId}" type="text" class="block" value="${text}" placeholder="链接文字"/></td>
-                    <input id="${inputLinkId}" type="text" class="block" value="${link}" placeholder="http://..."/></td>
+                    <input id="${inputTextId}" type="text" class="${
+            typeof text === 'object' ? 'hidden' : 'block'
+          }" value="${text}" placeholder="链接文字"/></td>
+                    <input id="${inputLinkId}" type="text" class="block" value="${link}" placeholder="请输入链接"/></td>
                     <div class="w-e-button-container">
                         <button id="${btnOkId}" class="right">插入</button>
                         <button id="${btnDelId}" class="gray right" style="display:${delBtnDisplay}">删除链接</button>
@@ -88,13 +93,19 @@ Link.prototype = {
               selector: '#' + btnOkId,
               type: 'click',
               fn: () => {
-                // 执行插入链接
-                const $link = $('#' + inputLinkId)
-                console.log('this', this, $)
-                const $text = $('#' + inputTextId)
-                const link = $link.val()
-                const text = $text.val()
-                this._insertLink(text, link)
+                if (typeof text === 'object') {
+                  const $link = $('#' + inputLinkId)
+                  const link = $link.val()
+                  this._insertLink(-1, link)
+                } else {
+                  // 执行插入链接
+                  const $link = $('#' + inputLinkId)
+                  console.log('this', this, $)
+                  const $text = $('#' + inputTextId)
+                  const link = $link.val()
+                  const text = $text.val()
+                  this._insertLink(text, link)
+                }
 
                 // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
                 return true
@@ -146,16 +157,42 @@ Link.prototype = {
     let checkResult = true // 默认为 true
     console.log('text', text)
     console.log('link', link)
-    if (linkCheck && typeof linkCheck === 'function') {
-      checkResult = linkCheck(text, link)
-    }
-    if (checkResult === true) {
-      editor.cmd.do(
-        'insertHTML',
-        `<a href="${link}" target="_blank">${text}</a>`
-      )
+    /**
+     * 逻辑 函数传入的 documentFragment 节点
+     * 然后查找 documentFragment 中是否存在 A 标签
+     * 存在证明是修改，只需要修改href即可，不需要append新的节点
+     * 反之append新的节点
+     */
+    if (text === -1) {
+      const objc = editor.selection.getSelectionText()
+      const Dva = objc.querySelector('a') // 判断是否存在超链接
+      console.log('dva', Dva)
+      if (!Dva) {
+        const id = __guid()
+        editor.cmd.do(
+          'insertHTML',
+          `<a href="${link}" target="_blank" id="${id}"></a>`
+        )
+        const dv = document.getElementById(id)
+        console.log(dv, objc)
+        dv.appendChild(objc)
+      } else {
+        console.log('link-2', link)
+        const vA = document.getElementById(Dva.id)
+        vA.href = link
+      }
     } else {
-      alert(checkResult)
+      if (linkCheck && typeof linkCheck === 'function') {
+        checkResult = linkCheck(text, link)
+      }
+      if (checkResult === true) {
+        editor.cmd.do(
+          'insertHTML',
+          `<a href="${link}" id="${__guid()}" target="_blank">${text}</a>` // 保证创建的A标签一定有唯一标识符
+        )
+      } else {
+        alert(checkResult)
+      }
     }
   },
 

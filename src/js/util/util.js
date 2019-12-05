@@ -77,3 +77,14 @@ export function percentFormat (number) {
 export function isFunction (fn) {
   return typeof fn === 'function'
 }
+
+/**
+ * 生成guid
+ */
+export function __guid () {
+  return 'xxxxxxxxxxxxxxxyxxxxxxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    var r = (Math.random() * 16) | 0
+    var v = c === 'x' ? r : (r & 0x3) | 0x8
+    return v.toString(16)
+  })
+}

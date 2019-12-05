@@ -30,14 +30,16 @@ API.prototype = {
 
     // 获取当前的选区
     const selection = window.getSelection()
+    // console.log('sec', selection)
     if (selection.rangeCount === 0) {
       return
     }
     const range = selection.getRangeAt(0)
-
+    // console.log('rg', range)
     // 判断选区内容是否在编辑内容之内
     const $containerElem = this.getSelectionContainerElem(range)
     if (!$containerElem) {
+      console.log(1)
       return
     }
 
@@ -46,6 +48,7 @@ API.prototype = {
       $containerElem.attr('contenteditable') === 'false' ||
       $containerElem.parentUntil('[contenteditable=false]')
     ) {
+      console.log(2)
       return
     }
 
@@ -71,29 +74,11 @@ API.prototype = {
 
   // 选中区域的文字
   getSelectionText: function () {
-    const range = this._currentRange
-    console.log('range', range)
-    // console.log('pppp', this._currentRange.toString())
-    // // 只需要在这里增加图片的校验即可
-    // const imgReg = /<img.*?(?:>|\/>)/gi // 截取标签内容
-    // const dom = document.querySelector(`#${this.editor.textElemId}`)
-    // if (range && dom.innerHTML.indexOf('img') === -1) {
-    //   return this._currentRange.toString()
-    // } else if (dom.innerHTML.indexOf('img') > -1) {
-    //   // console.log(imgReg, dom.innerHTML, dom.innerHTML.match(imgReg)[0])
-    //   // 这边需要做的是转义 引号 和 标签结尾符号
-    //   var index = range.startOffset
-    //   const Str = dom.innerHTML.match(imgReg)[index]
-    //   return Str.replace(/"/g, '&quot;').replace(/>/g, '&gt;')
-    // } else {
-    //   return ''
-    // }
-    const domList = range.commonAncestorContainer.childNodes
-    const startIndex = range.startOffset
-    const endIndex = range.endOffset
-    // const contentDOM = domList.slice(startIndex, endIndex)
-    // console.log(contentDOM)
-    console.log(domList, startIndex, endIndex)
+    // -----
+    const range = this.getRange() // range对象
+    console.log('v', range.cloneContents())
+    console.log(typeof range.cloneContents())
+    return range.cloneContents() // 保证选区正确
   },
 
   // 选区的 $Elem
