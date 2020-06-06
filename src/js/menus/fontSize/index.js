@@ -16,7 +16,7 @@ function FontSize (editor) {
 
   // 初始化 droplist
   this.droplist = new DropList(this, {
-    width: 160,
+    width: 250,
     $title: $('<p>字号</p>'),
     type: 'list', // droplist 以列表形式展示
     list: [
@@ -25,9 +25,10 @@ function FontSize (editor) {
       { $elem: $('<span>normal</span>'), value: '3' },
       { $elem: $('<span style="font-size: large;">large</span>'), value: '4' },
       { $elem: $('<span style="font-size: x-large;">x-large</span>'), value: '5' },
-      { $elem: $('<span style="font-size: xx-large;">xx-large</span>'), value: '6' }
+      { $elem: $('<span style="font-size: xx-large;">xx-large</span>'), value: '6' },
+      { $elem: $('<span style="font-size: xxx-large;">xxx-large</span>'), value: '7' }
     ],
-    onClick: (value) => {
+    onClick: value => {
       // 注意 this 是指向当前的 FontSize 对象
       this._command(value)
     }
